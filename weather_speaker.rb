@@ -4,10 +4,10 @@ require './weather_information.rb'
 class WeatherSpeaker
   attr_reader :weather_information
 
-  WEATHER_KEY = /(てんき|天気|はれ|晴れ|くもり|曇り|あめ|雨)/
+  WEATHER_KEY = /(てんき|天気)/
   UNBRELLA_KEY = /(かさ|傘)/
-  TEMPERATURE_KEY = /(きおん|気温|おんど|温度|あつい|暑い|さむい|寒い)/
-  ULTRAVIOLET_KEY = /(しがいせん|紫外線|ひざし|日差し)/
+  TEMPERATURE_KEY = /(きおん|気温)/
+  ULTRAVIOLET_KEY = /(しがいせん|紫外線)/
 
   VOICES = {
     '晴' => 'sunny.mp3',
