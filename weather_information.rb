@@ -55,12 +55,28 @@ class WeatherInformation
     {today: today_unbrella_comment, tomorrow: tomorrow_unbrella_comment}
   end
 
+  def unbrella_rate
+    xml = metrics
+    unbrella_rates = xml.xpath("//*[@id='explst']//tr[th='傘']//dd[1]//em//text()")
+    today_unbrella_rate = unbrella_rates[0].to_s
+    tomorrow_unbrella_rate = unbrella_rates[1].to_s
+    {today: today_unbrella_rate, tomorrow: tomorrow_unbrella_rate}
+  end
+
   def ultraviolet_comment
     xml = metrics
     ultraviolet_comments = xml.xpath("//*[@id='explst']//tr[th='紫外線']//dd[2]//text()")
     today_ultraviolet_comment = ultraviolet_comments[0].to_s
     tomorrow_ultraviolet_comment = ultraviolet_comments[1].to_s
     {today: today_ultraviolet_comment, tomorrow: tomorrow_ultraviolet_comment}
+  end
+
+  def ultraviolet_level
+    xml = metrics
+    ultraviolet_levels = xml.xpath("//*[@id='explst']//tr[th='紫外線']//dd[1]//em//text()")
+    today_ultraviolet_level = ultraviolet_levels[0].to_s
+    tomorrow_ultraviolet_level = ultraviolet_levels[1].to_s
+    {today: today_ultraviolet_level, tomorrow: tomorrow_ultraviolet_level}
   end
 
   private
