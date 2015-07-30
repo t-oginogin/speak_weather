@@ -149,6 +149,6 @@ class WeatherSpeaker
   end
 
   def play(file)
-    `mpg123 voices/#{file}` if file
+    `mpg123 -q voices/#{file}` if file
   end
 end
