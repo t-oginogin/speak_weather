@@ -11,32 +11,41 @@ class WeatherSpeaker
 
   VOICES = {
     '晴' => 'sunny.mp3',
+    '晴後曇' => 'sunny_after_cloudiness.mp3',
+    '晴後雨' => 'sunny_after_rain.mp3',
+    '晴後雪' => 'sunny_after_snow.mp3',
+    '晴時々曇' => 'sunny_sometimes_cloudiness.mp3',
+    '晴時々雨' => 'sunny_sometimes_rain.mp3',
+    '晴時々雪' => 'sunny_sometimes_snow.mp3',
     '曇' => 'cloudiness.mp3',
+    '曇後晴' => 'cloudiness_after_sunny.mp3',
+    '曇後雨' => 'cloudiness_after_rain.mp3',
+    '曇後雪' => 'cloudiness_after_snow.mp3',
+    '曇時々晴' => 'cloudiness_sometimes_sunny.mp3',
+    '曇時々雨' => 'cloudiness_sometimes_rain.mp3',
+    '曇時々雪' => 'cloudiness_sometimes_snow.mp3',
     '雨' => 'rain.mp3',
+    '雨後晴' => 'rain_after_sunny.mp3',
+    '雨後曇' => 'rain_after_cloudiness.mp3',
+    '雨後雪' => 'rain_after_snow.mp3',
+    '雨時々晴' => 'rain_sometimes_sunny.mp3',
+    '雨時々曇' => 'rain_sometimes_cloudiness.mp3',
+    '雨時々雪' => 'rain_sometimes_snow.mp3',
     '雪' => 'snow.mp3',
-    '後' => 'after.mp3',
-    '時々' => 'sometimes.mp3',
+    '雪後晴' => 'snow_after_sunny.mp3',
+    '雪後曇' => 'snow_after_cloudiness.mp3',
+    '雪後雨' => 'snow_after_rain.mp3',
+    '雪時々晴' => 'snow_sometimes_sunny.mp3',
+    '雪時々曇' => 'snow_sometimes_cloudiness.mp3',
+    '雪時々雨' => 'snow_sometimes_rain.mp3',
     '最高気温' => 'max.mp3',
     '最低気温' => 'min.mp3',
-    '0' => 'zero.mp3',
-    '1' => 'one.mp3',
-    '2' => 'two.mp3',
-    '3' => 'three.mp3',
-    '4' => 'four.mp3',
-    '5' => 'five.mp3',
-    '6' => 'six.mp3',
-    '7' => 'seven.mp3',
-    '8' => 'eight.mp3',
-    '9' => 'nine.mp3',
-    '10' => 'ten.mp3',
-    '度' => 'degree.mp3',
     '-' => 'minus.mp3',
     '+' => 'plus.mp3',
-    'っす' => 'su.mp3',
     '今日との差' => 'diff_today.mp3',
-    '聞き取れなかった' => 'not_understand.mp3',
+    '聞き取れへん' => 'not_understand.mp3',
     'もう一度' => 'again.mp3',
-    'わからない' => 'unknown.mp3',
+    'わからへん' => 'unknown.mp3',
   }
 
   UNBRELLA_VOICES = {
@@ -90,10 +99,7 @@ class WeatherSpeaker
 
     matched_words = word.match(/(晴|曇|雨|雪)+(後|時々)?(晴|曇|雨|雪)?/)
     if matched_words
-      play VOICES[matched_words[1]]
-      play VOICES[matched_words[2]]
-      play VOICES[matched_words[3]]
-      play VOICES['っす']
+      play VOICES[matched_words[0]]
     end
   end
 
@@ -119,23 +125,11 @@ class WeatherSpeaker
     play VOICES['+'] if sign == '+'
 
     case temp.to_i
-    when 0..9
-      play VOICES[temp]
-    when 10
-      play VOICES['10']
-    when 11..19
-      matched_temp = temp.match(/(\d)(\d)/)
-      play VOICES['10']
-      play VOICES[matched_temp[2]]
+    when 0..39
+      play "#{temp}.mp3"
     else
-      matched_temp = temp.match(/(\d)(\d)/)
-      play VOICES[matched_temp[1]]
-      play VOICES['10']
-      play VOICES[matched_temp[2]]
+      play VOICES['わからへん']
     end
-
-    play VOICES['度']
-    play VOICES['っす']
   end
 
   def speak_ultraviolet_comment
@@ -144,7 +138,7 @@ class WeatherSpeaker
   end
 
   def speak_unknown
-    word = %w(聞き取れなかった もう一度 わからない).sample
+    word = %w(聞き取れへん もう一度 わからへん).sample
     play VOICES[word]
   end
 
