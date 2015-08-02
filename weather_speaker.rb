@@ -143,8 +143,8 @@ class WeatherSpeaker
   end
 
   def play(file)
-    `mixer sset Mic 0 -c 0` # しゃべる声に反応してしまうためマイクをミュート
+    `amixer sset Mic 0 -c 0` # しゃべる声に反応してしまうためマイクをミュート
     `mpg123 -q voices/#{file}` if file
-    `mixer sset Mic 62 -c 0`
+    `amixer sset Mic 62 -c 0`
   end
 end
