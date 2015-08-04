@@ -1,0 +1,62 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          speak_weather 
+# Required-Start:    $local_fs $remote_fs $syslog $julius
+# Required-Stop:     $local_fs $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: speak_weather initscript
+# Description:       speak_weather start/stop script.
+### END INIT INFO
+
+run()
+{
+  echo -n "$1 - "
+  shift
+  if
+    "$@"
+  then
+    echo "OK"
+  else
+    typeset result=$?
+    echo "Failed!" >&2
+    return $result
+  fi
+}
+
+setup ()
+{
+  export SPEAK_WHEATHER_ROOT=/home/pi/speak_weather
+  cd $SPEAK_WHEATHER_ROOT || return $?
+  export PATH="/home/pi/.rbenv/shims:/home/pi/.rbenv/bin:$PATH"
+}
+
+cmd_start()
+{
+  su pi -c "PATH='/home/pi/.rbenv/shims:/home/pi/.rbenv/bin:$PATH' ruby $SPEAK_WHEATHER_ROOT/speak_weather.rb > speak_weather.log 2>&1 &"
+}
+
+cmd()
+{
+  setup || return $?
+  case "$1" in
+    start)
+      cmd_$1 || return $?
+      ;;
+    *)
+      echo "Usage: $0 <start>" >&2
+      return 1
+      ;;
+  esac
+}
+
+# either run the start/stop/reload/etc command for every config under /etc/unicorn
+# or just do it for a specific one
+# $1 contains the start/stop/etc command
+# $2 if it exists, should be the specific config we want to act on
+start_stop ()
+{
+  cmd "$1" || return $?
+}
+
+start_stop "$@"
