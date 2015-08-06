@@ -8,6 +8,7 @@ class WeatherSpeaker
   UNBRELLA_KEY = /(かさ|傘)/
   TEMPERATURE_KEY = /(きおん|気温)/
   ULTRAVIOLET_KEY = /(しがいせん|紫外線)/
+  THANKS_KEY = /(ありがとう)/
 
   VOICES = {
     '晴' => 'sunny.mp3',
@@ -70,6 +71,13 @@ class WeatherSpeaker
     '弱い' => 'ultraviolet_1.mp3',
   }
 
+  THANKS_VOICES = {
+    '無理せんように' => 'not_be_unreasonable.mp3',
+    'また聞いて' => 'your_welcome.mp3',
+    'リフレッシュ' => 'refresh.mp3',
+    'あと1日' => 'before_holiday.mp3',
+  }
+
   def initialize(weather_information)
     @weather_information = weather_information
   end
@@ -85,6 +93,8 @@ class WeatherSpeaker
         speak_max_min_temperature
       when ULTRAVIOLET_KEY
         speak_ultraviolet_comment
+      when THANKS_KEY
+        speak_thanks
       else
         speak_unknown
       end
@@ -135,6 +145,13 @@ class WeatherSpeaker
   def speak_ultraviolet_comment
     ultraviolet_levels = weather_information.ultraviolet_level
     play ULTRAVIOLET_VOICES[ultraviolet_levels[:tomorrow]] if ultraviolet_levels
+  end
+
+  def speak_thanks
+    words = %w(無理せんように また聞いて リフレッシュ)
+    words << 'あと1日' if Time.now.strftime('%A') == 'Thursday'
+    word = words.sample
+    play THANKS_VOICES[word]
   end
 
   def speak_unknown
