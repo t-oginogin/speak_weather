@@ -122,12 +122,18 @@ class WeatherSpeaker
   def speak_max_min_temperature
     temp = weather_information.temperature
     matched_words = temp[:tomorrow][:max][:temp].match(/(\+|-)?(\d+)/)
+    return if matched_words.nil?
+
     play VOICES['最高気温']
     speak_tempareture(matched_words[1], matched_words[2])
 
     play VOICES['今日との差']
     matched_words = temp[:tomorrow][:max][:diff].match(/(\+|-)?(\d+)/)
-    speak_tempareture(matched_words[1], matched_words[2])
+    if matched_words
+      speak_tempareture(matched_words[1], matched_words[2])
+    else
+      play VOICES['わからへん']
+    end
   end
 
   def speak_tempareture(sign, temp)
